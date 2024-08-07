@@ -12,6 +12,7 @@
 
 #ifndef FT_STRINGS_H
 # define FT_STRINGS_H
+# include <stdlib.h>
 
 int		ft_strlen(char *str);
 

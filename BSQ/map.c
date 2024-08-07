@@ -6,14 +6,11 @@
 /*   By: rsebasti <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/05 23:28:21 by rsebasti          #+#    #+#             */
-/*   Updated: 2024/08/06 16:41:35 by rsebasti         ###   ########.fr       */
+/*   Updated: 2024/08/05 23:28:57 by rsebasti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <stdlib.h>
 #include "map.h"
-#include "utils/ft_split.h"
-#include "utils/ft_strings.h"
 
 /*
 Toutes les lignes doivent avoir la même longueur.
@@ -32,7 +29,7 @@ int	ft_atoi(char *str);
 
 void	kill_map(t_map *map)
 {
-	int	i;
+	unsigned int	i;
 
 	i = 0;
 	while (i < map->dim_y)
@@ -42,7 +39,7 @@ void	kill_map(t_map *map)
 
 int	parse_map(char *map_string, t_map *map)
 {
-	int		i;
+	unsigned int		i;
 	char	**split_data;
 	int		len;
 
@@ -71,14 +68,14 @@ int	parse_map(char *map_string, t_map *map)
 
 int	check_line(char *line, t_map map)
 {
-	int	i;
+	unsigned int	i;
 
 	i = 0;
-	if (ft_strlen(line) != map.dim_x)
+	if ((unsigned int)ft_strlen(line) != map.dim_x)
 		return (print_message("Invalid map. Invalid line Size", 1));
 	while (line[i])
 	{
-		if (line[i] != map.empty_char && line[i] == map.full_char)
+		if (line[i] != map.empty_char && line[i] != map.full_char)
 			return (print_message("Invalid character in map", 2));
 		i++;
 	}

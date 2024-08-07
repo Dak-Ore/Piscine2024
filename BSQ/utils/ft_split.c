@@ -1,5 +1,4 @@
-#include <stdlib.h>
-#include "ft_strings.h"
+#include "ft_split.h"
 
 void	ft_free_split(char **split_array)
 {

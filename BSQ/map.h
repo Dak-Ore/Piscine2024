@@ -1,5 +1,8 @@
 #ifndef MAP_H
 # define MAP_H
+# include <stdlib.h>
+# include "utils/ft_split.h"
+# include "utils/ft_strings.h"
 
 typedef struct s_map
 {

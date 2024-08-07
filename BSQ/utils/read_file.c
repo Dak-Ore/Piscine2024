@@ -1,6 +1,4 @@
-#include <unistd.h>
-#include <fcntl.h>
-#include <stdlib.h>
+#include "read_file.h"
 
 char	*read_file(char *file)
 {

@@ -6,7 +6,7 @@
 /*   By: rsebasti <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/05 15:38:17 by rsebasti          #+#    #+#             */
-/*   Updated: 2024/08/05 23:39:24 by rsebasti         ###   ########.fr       */
+/*   Updated: 2024/08/07 14:48:59 by rsebasti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,30 +34,29 @@ char	*read_input(void)
 {
 	char	*buffer;
 	//int		size;
-	char	*true_buffer;
-	int		fd;
+	//char	*true_buffer;
+	//int		fd;
 
 	buffer = malloc(sizeof(char) * 20);
 	print_message("Veuillez entrez un fichier map a resoudre:", 0);
 	read(0, buffer, sizeof(buffer));
 	free(buffer);
-	return (true_buffer);
+	return (buffer);
 }
 
 int	main(int argc, char **argv)
 {
 	//char	**map;
-	char	*user;
 	char	*file_content;
 	t_map	map;
 
 	if (argc == 1)
 	{
 		print_message("No argument", 2);
-		user = read_input();
 	}
-	while (argc > 1 || *user)
+	while (argc > 1)
 	{
+		argv++;
 		file_content = read_file(*argv);
 		if (file_content == NULL)
 		{
@@ -69,8 +68,5 @@ int	main(int argc, char **argv)
 /* 		resolve_map();
 		print_map(); */
 		argc--;
-		argv++;
-		user = NULL;
 	}
 }
-
