@@ -6,7 +6,7 @@
 /*   By: rsebasti <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/23 18:43:23 by rsebasti          #+#    #+#             */
-/*   Updated: 2024/07/31 18:29:43 by rsebasti         ###   ########.fr       */
+/*   Updated: 2024/08/08 19:32:35 by rsebasti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,7 +49,7 @@ int	ft_get_string_size(int newint, char *base_to)
 		newint = -newint;
 		size++;
 	}
-	while (res < newint)
+	while (res <= newint)
 	{
 		res = res * ft_baselen(base_to);
 		size++;
@@ -77,7 +77,7 @@ void	ft_putnbr_base(int nbr, char *base, char *tab, int size)
 int	ft_atoi_base(char *str, char *base)
 {
 	int		isneg;
-	long	res;
+	int		res;
 	int		baselen;
 
 	isneg = 1;
@@ -105,8 +105,8 @@ char	*ft_convert_base(char *nbr, char *base_from, char *base_to)
 	int		newint;
 	int		size;
 
-	if (ft_baselen(base_from) <= 1 || ft_baselen(base_to) <= 1 || !nbr)
-		return (0);
+	if (ft_baselen(base_from) <= 1 || ft_baselen(base_to) <= 1 || !nbr[0])
+		return (NULL);
 	newint = ft_atoi_base(nbr, base_from);
 	size = ft_get_string_size(newint, base_to);
 	newstr = malloc(sizeof(char) * size + 1);
@@ -119,10 +119,11 @@ char	*ft_convert_base(char *nbr, char *base_from, char *base_to)
 	newstr[size] = '\0';
 	return (newstr);
 }
-/*
+/* 
 #include <stdio.h>
-int	main(void)
+int	main(int argc, char **argv)
 {
-	printf("p:%s\n", ft_convert_base("0", "0123456789", "poney"));
+	printf("p:%s\n", 
+	ft_convert_base(argv[argc - 3], argv[argc - 2], argv[argc - 1]));
 } 
-*/
+ */

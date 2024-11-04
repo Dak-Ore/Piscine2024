@@ -5,98 +5,112 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: rsebasti <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/07/25 20:10:12 by rsebasti          #+#    #+#             */
-/*   Updated: 2024/07/31 18:30:14 by rsebasti         ###   ########.fr       */
+/*   Created: 2024/08/08 15:47:30 by rsebasti          #+#    #+#             */
+/*   Updated: 2024/08/08 17:55:16 by rsebasti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <stdlib.h>
 
-int	ft_is_sep(char c, char *charset)
-{
-	while (*charset)
-	{
-		if (*charset == c)
-			return (1);
-		charset++;
-	}
-	return (0);
-}
-
-int	ft_strlen(char *str, char *charset)
+int	is_charset(char c, char *charset)
 {
 	int	i;
 
 	i = 0;
-	while (!ft_is_sep(str[i], charset) && str[i])
+	while (charset[i])
+	{
+		if (charset[i] == c)
+			return (1);
+		i++;
+	}
+	return (0);
+}
+
+int	ft_strlen_to(char *str, char *charset)
+{
+	int	i;
+
+	i = 0;
+	while (str[i] && !is_charset(str[i], charset))
 		i++;
 	return (i);
 }
 
-int	ft_total_size(char *str, char *charset)
+char	*ft_strdup(char *str, char *charset)
+{
+	char	*new;
+	int		i;
+
+	new = malloc(sizeof(char) * ft_strlen_to(str, charset) + 1);
+	if (new == NULL)
+		return (NULL);
+	i = 0;
+	while (str[i] && !is_charset(str[i], charset))
+	{
+		new[i] = str[i];
+		i++;
+	}
+	new[i] = '\0';
+	return (new);
+}
+
+int	ft_countwords(char *str, char *charset)
 {
 	int	i;
 	int	count;
 
 	i = 0;
 	count = 0;
+	if (str[i] && !is_charset(str[i], charset))
+		count++;
 	while (str[i])
 	{
-		if (ft_is_sep(str[i], charset) && !ft_is_sep(str[i + 1], charset))
+		if (is_charset(str[i], charset) && !is_charset(str[i + 1], charset)
+			&& str[i + 1])
 			count++;
 		i++;
 	}
-	return (count + 2);
-}
-
-void	ft_assign(char *str, char *charset, char **tab)
-{
-	int		i;
-	int		nb;
-	int		j;
-
-	i = -1;
-	nb = 0;
-	j = 0;
-	tab[nb] = malloc(sizeof(char *) * ft_strlen(str, charset) + 1);
-	while (str[++i])
-	{
-		if (ft_is_sep(str[i], charset) && !ft_is_sep(str[i + 1], charset)
-			&& str[i + 1] && j != 0)
-		{
-			tab[nb][j] = '\0';
-			nb++;
-			j = ft_strlen(&str[i + 1], charset);
-			tab[nb] = malloc(sizeof(char) * j + 1);
-			j = 0;
-		}
-		if (!ft_is_sep(str[i], charset))
-			tab[nb][j++] = str[i];
-	}
-	tab[nb + 1] = malloc(sizeof(int));
-	tab[nb + 1] = NULL;
+	return (count);
 }
 
 char	**ft_split(char *str, char *charset)
 {
-	char	**tab;
+	char	**splited;
+	int		i;
+	int		nb;
 
-	tab = malloc(sizeof(char *) * ft_total_size(str, charset));
-	ft_assign(str, charset, tab);
-	return (tab);
+	i = 0;
+	nb = 0;
+	splited = malloc(sizeof(char *) * ft_countwords(str, charset) + 1);
+	if (splited == NULL)
+		return (NULL);
+	while (str[i])
+	{
+		if (is_charset(str[i], charset) && !is_charset(str[i + 1], charset)
+			&& str[i + 1] && splited[nb])
+			nb++;
+		if (!is_charset(str[i], charset))
+		{
+			splited[nb] = ft_strdup(&str[i], charset);
+			while (str[i + 1] && !is_charset(str[i + 1], charset))
+				i++;
+		}
+		i++;
+	}
+	splited[nb + 1] = 0;
+	return (splited);
 }
-/* 
+/*
 #include <stdio.h>
-int    main(void)
+int	main(void)
 {
-    char    **c;
-    c = ft_split("aa bb  c c-d ffafaff  faf af afaf af afd", "-");
-    int i = 0;
-    while (c[i])
-    {
-        printf("%s\n", c[i]);
-        i++;
-    }
-	printf("%s\n", c[i]);
+ 	char	**split;
+
+	split = ft_split(" ururiruro p ", " p");
+	while (*split)
+	{
+		printf("%s \n", *split);
+		split++;
+	}
 }
- */
+*/
